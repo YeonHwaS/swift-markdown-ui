@@ -121,11 +121,7 @@ public struct Grid: View, LayoutArranging, LayoutPositioning {
     .frame(width: self.positions.totalSize?.width ?? .zero,
            height: self.positions.totalSize?.height ?? .zero,
            alignment: self.contentAlignment.swiftUIAlignment)
-    .if(contentMode == .scroll) { content in
-      ScrollView(self.scrollAxis) { content }
-    }
     .id(self.isLoaded)
-    .coordinateSpace(name: "grid")
     //    GeometryReader { mainGeometry in
     //      ZStack(alignment: .topLeading) {
     //        ForEach(itemsBuilder()) { item in

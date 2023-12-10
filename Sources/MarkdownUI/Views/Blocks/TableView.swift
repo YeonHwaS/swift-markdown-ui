@@ -26,67 +26,32 @@ struct TableView: View {
   private var label: some View {
     let tracks: [GridTrack] = (0 ..< self.rowCount).map { _ in .fit }
 
-    return Grid(tracks: tracks, spacing: [self.borderWidth, self.borderWidth]) {
-      ForEach(0..<self.columnCount, id: \.self) { column in
-        ForEach(0..<self.rowCount, id: \.self) { row in
+    return ScrollView(.horizontal) {
+      Grid(tracks: tracks, spacing: [self.borderWidth, self.borderWidth]) {
+        ForEach(0..<self.columnCount, id: \.self) { column in
+          ForEach(0..<self.rowCount, id: \.self) { row in
 
-          let alignment: GridAlignment? = switch self.columnAlignments[column] {
-          case .none: nil
-          case .left: .leading
-          case .center: .center
-          case .right: .trailing
+            let alignment: GridAlignment? = switch self.columnAlignments[column] {
+            case .none: nil
+            case .left: .leading
+            case .center: .center
+            case .right: .trailing
+            }
+
+            TableCell(row: row, column: column, cell: self.rows[row].cells[column])
+              .gridItemAlignment(alignment)
           }
-
-          TableCell(row: row, column: column, cell: self.rows[row].cells[column])
-            .gridItemAlignment(alignment)
-            .gridCellBackground { content in
-              Rectangle()
-                .fill(self.tableBackgroundStyle.background(row, column))
-//                .offset(x: content?.minX ?? .zero, y: content?.minY ?? .zero)
-                .frame(width: content?.width ?? .zero, height: content?.height ?? .zero)
-            }
-            .gridCellOverlay { content in
-              Rectangle()
-                .strokeBorder(self.tableBorderStyle.color, style: self.tableBorderStyle.strokeStyle)
-//                .offset(x: content?.minX ?? .zero, y: content?.minY ?? .zero)
-                .frame(width: content?.width ?? .zero, height: content?.height ?? .zero)
-            }
         }
       }
+      .gridContentMode(.scroll)
+      .gridFlow(.columns)
+      .tableDecoration(
+        rowCount: self.rowCount,
+        columnCount: self.columnCount,
+        background: TableBackgroundView.init,
+        overlay: TableBorderView.init
+      )
     }
-    .gridContentMode(.scroll)
-    .gridFlow(.columns)
-//    .gridCache(.noCache)
-//    .tableDecoration(
-//      rowCount: self.rowCount,
-//      columnCount: self.columnCount,
-//      background: TableBackgroundView.init,
-//      overlay: TableBorderView.init
-//    )
-
-
-
-//        if #available(iOS 16.0, *) {
-//          return Grid(horizontalSpacing: self.borderWidth, verticalSpacing: self.borderWidth) {
-//            ForEach(0..<self.rowCount, id: \.self) { row in
-//              GridRow {
-//                ForEach(0..<self.columnCount, id: \.self) { column in
-//                  TableCell(row: row, column: column, cell: self.rows[row].cells[column])
-//                    .gridColumnAlignment(.init(self.columnAlignments[column]))
-//                }
-//              }
-//            }
-//          }
-//          .padding(self.borderWidth)
-//          .tableDecoration(
-//            rowCount: self.rowCount,
-//            columnCount: self.columnCount,
-//            background: TableBackgroundView.init,
-//            overlay: TableBorderView.init
-//          )
-//        } else {
-//          return Text("")
-//        }
   }
 
   private var rowCount: Int {
