@@ -95,18 +95,6 @@ public struct Grid: View, LayoutArranging, LayoutPositioning {
             contentMode: self.contentMode,
             alignment: alignmentForItem(item)
           )
-//          .backgroundPreferenceValue(
-//            GridBackgroundPreferenceKey.self,
-//            alignment: alignmentForItem(item)
-//          ) { preference in
-//            self.cellPreferenceView(item: item, preference: preference)
-//          }
-//          .overlayPreferenceValue(
-//            GridOverlayPreferenceKey.self,
-//            alignment: alignmentForItem(item)
-//          ) { preference in
-//            self.cellPreferenceView(item: item, preference: preference)
-//          }
           .alignmentGuide(.leading) { _ in self.leadingGuide(item: item) }
           .alignmentGuide(.top) { _ in self.topGuide(item: item) }
       }
@@ -122,67 +110,6 @@ public struct Grid: View, LayoutArranging, LayoutPositioning {
            height: self.positions.totalSize?.height ?? .zero,
            alignment: self.contentAlignment.swiftUIAlignment)
     .id(self.isLoaded)
-    //    GeometryReader { mainGeometry in
-    //      ZStack(alignment: .topLeading) {
-    //        ForEach(itemsBuilder()) { item in
-    //          item.view
-    //            .padding(spacing: self.spacing)
-    //            .background(
-    //              self.positionsPreferencesSetter(
-    //                item: item,
-    //                boundingSize: mainGeometry.size
-    //              )
-    //            )
-    //            .transformPreference(GridPreferenceKey.self) { preference in
-    //              preference.itemsInfo = preference.itemsInfo.mergedToSingleValue
-    //            }
-    //            .frame(
-    //              flow: self.flow,
-    //              size: self.positions[item]?.bounds.size,
-    //              contentMode: self.contentMode,
-    //              alignment: alignmentForItem(item)
-    //            )
-    //            .backgroundPreferenceValue(
-    //              GridBackgroundPreferenceKey.self,
-    //              alignment: alignmentForItem(item)
-    //            ) { preference in
-    //              self.cellPreferenceView(item: item, preference: preference)
-    //            }
-    //            .overlayPreferenceValue(
-    //              GridOverlayPreferenceKey.self,
-    //              alignment: alignmentForItem(item)
-    //            ) { preference in
-    //              self.cellPreferenceView(item: item, preference: preference)
-    //            }
-    //            .alignmentGuide(.leading, computeValue: { _ in self.leadingGuide(item: item) })
-    //            .alignmentGuide(.top, computeValue: { _ in self.topGuide(item: item) })
-    //        }
-    //      }
-    //      .animation(self.gridAnimation)
-    //      .frame(
-    //        flow: self.flow,
-    //        size: mainGeometry.size,
-    //        contentMode: self.contentMode,
-    //        alignment: self.contentAlignment.swiftUIAlignment
-    //      )
-    //      .if(contentMode == .scroll) { content in
-    //        ScrollView(self.scrollAxis) { content }
-    //      }
-    //      .frame(
-    //        flow: self.flow,
-    //        size: mainGeometry.size,
-    //        contentMode: self.contentMode,
-    //        alignment: self.contentAlignment.swiftUIAlignment
-    //      )
-    //      .onPreferenceChange(GridPreferenceKey.self) { preference in
-    //        self.calculateLayout(
-    //          preference: preference,
-    //          boundingSize: mainGeometry.size
-    //        )
-    //        self.saveAlignmentsFrom(preference: preference)
-    //      }
-    //    }
-    //    .id(self.isLoaded)
   }
 
   private func calculateLayout(preference: GridPreference, boundingSize: CGSize) {

@@ -50,27 +50,6 @@ extension View {
       preferences.itemsInfo = [info]
     })
   }
-  
-  public func gridCellOverlay<Content: View>(
-    @ViewBuilder content: @escaping (CGSize?) -> Content
-  ) -> some View {
-    preference(
-      key: GridOverlayPreferenceKey.self,
-      value: GridOverlayPreference { rect in
-        AnyView(content(rect))
-      }
-    )
-  }
-  
-  public func gridCellBackground<Content: View>(
-    @ViewBuilder content: @escaping (CGSize?) -> Content
-  ) -> some View {
-    preference(
-      key: GridBackgroundPreferenceKey.self,
-      value: GridBackgroundPreference { rect in
-        AnyView(content(rect))
-      })
-  }
 }
 
 extension Optional where Wrapped == Int {
