@@ -56,5 +56,7 @@ struct RawTableRow: Hashable {
 }
 
 struct RawTableCell: Hashable {
+  let colspan: Int
+  let rowspan: Int
   let content: [InlineNode]
 }

@@ -97,12 +97,13 @@ public struct TextTable: MarkdownContentProtocol {
       cells:
         tableColumns
         .map(\.title.inlines)
+        .map { (1, 1, $0) }
         .map(RawTableCell.init)
     )
     let body = data.map { value in
       RawTableRow(
         cells: tableColumns.map { column in
-          RawTableCell(content: column.content(value).inlines)
+          RawTableCell(colspan: 1, rowspan: 1, content: column.content(value).inlines)
         }
       )
     }

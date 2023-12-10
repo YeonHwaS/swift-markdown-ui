@@ -91,7 +91,9 @@ extension BlockNode {
           rows: try rows.map {
             RawTableRow(
               cells: try $0.cells.map {
-                RawTableCell(content: try $0.content.rewrite(r))
+                RawTableCell(colspan: $0.colspan,
+                             rowspan: $0.rowspan,
+                             content: try $0.content.rewrite(r))
               }
             )
           }

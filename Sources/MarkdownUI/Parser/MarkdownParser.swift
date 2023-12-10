@@ -1,5 +1,6 @@
 import Foundation
-@_implementationOnly import cmark_gfm
+import cmark_gfm
+import cmark_gfm_extensions
 
 extension Array where Element == BlockNode {
   init(markdown: String) {
@@ -116,7 +117,9 @@ extension RawTableCell {
     guard unsafeNode.nodeType == .tableCell else {
       fatalError("Expected a table cell but got a '\(unsafeNode.nodeType)' instead.")
     }
-    self.init(content: unsafeNode.children.compactMap(InlineNode.init(unsafeNode:)))
+    self.init(colspan: unsafeNode.tableCellColspan,
+              rowspan: unsafeNode.tableCellRowspan,
+              content: unsafeNode.children.compactMap(InlineNode.init(unsafeNode:)))
   }
 }
 
@@ -211,6 +214,14 @@ extension UnsafeNode {
     Int(cmark_gfm_extensions_get_table_columns(self))
   }
 
+  fileprivate var tableCellColspan: Int {
+    Int(cmark_gfm_extensions_get_table_cell_colspan(self))
+  }
+
+  fileprivate var tableCellRowspan: Int {
+    Int(cmark_gfm_extensions_get_table_cell_rowspan(self))
+  }
+
   fileprivate var tableAlignments: [RawTableColumnAlignment] {
     (0..<self.tableColumns).map { column in
       let ascii = cmark_gfm_extensions_get_table_alignments(self)[column]
@@ -228,7 +239,7 @@ extension UnsafeNode {
 
     // Create a Markdown parser and attach the GitHub syntax extensions
 
-    let parser = cmark_parser_new(CMARK_OPT_DEFAULT)
+    let parser = cmark_parser_new(CMARK_OPT_TABLE_SPANS)
     defer { cmark_parser_free(parser) }
 
     let extensionNames: Set<String>
