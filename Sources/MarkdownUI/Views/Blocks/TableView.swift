@@ -50,6 +50,7 @@ struct TableView: View {
       .tableDecoration(
         rowCount: self.rowCount,
         columnCount: self.columnCount,
+        rows: self.rows,
         background: TableBackgroundView.init,
         overlay: TableBorderView.init
       )

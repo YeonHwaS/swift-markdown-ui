@@ -10,6 +10,7 @@ struct TableBounds {
   }
 
   let bounds: CGRect
+  let tableRows: [RawTableRow]
 
   private let rows: [(minY: CGFloat, height: CGFloat)]
   private let columns: [(minX: CGFloat, width: CGFloat)]
@@ -17,6 +18,7 @@ struct TableBounds {
   fileprivate init(
     rowCount: Int,
     columnCount: Int,
+    tableRows: [RawTableRow],
     anchors: [TableCellIndex: Anchor<CGRect>],
     proxy: GeometryProxy
   ) {
@@ -48,6 +50,7 @@ struct TableBounds {
     self.bounds = proxy.frame(in: .local)
     self.rows = rows
     self.columns = columns
+    self.tableRows = tableRows
   }
 
   func bounds(forRow row: Int, column: Int) -> CGRect {
@@ -68,6 +71,12 @@ struct TableBounds {
       .map { self.bounds(forRow: $0, column: column) }
       .reduce(.null, CGRectUnion)
   }
+
+  func hasSpan(forRow row: Int, column: Int) -> Bool {
+    let colspan = self.tableRows[row].cells[column].colspan
+    let rowspan = self.tableRows[row].cells[column].rowspan
+    return colspan > 0 && rowspan > 0
+  }
 }
 
 extension View {
@@ -80,6 +89,7 @@ extension View {
   func tableDecoration<Background, Overlay>(
     rowCount: Int,
     columnCount: Int,
+    rows: [RawTableRow],
     background: @escaping (TableBounds) -> Background,
     overlay: @escaping (TableBounds) -> Overlay
   ) -> some View where Background: View, Overlay: View {
@@ -90,6 +100,7 @@ extension View {
             .init(
               rowCount: rowCount,
               columnCount: columnCount,
+              tableRows: rows,
               anchors: anchors,
               proxy: proxy
             )
@@ -102,6 +113,7 @@ extension View {
             .init(
               rowCount: rowCount,
               columnCount: columnCount,
+              tableRows: rows,
               anchors: anchors,
               proxy: proxy
             )

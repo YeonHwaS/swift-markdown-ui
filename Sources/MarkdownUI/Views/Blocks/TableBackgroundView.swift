@@ -13,12 +13,13 @@ struct TableBackgroundView: View {
     ZStack(alignment: .topLeading) {
       ForEach(0..<self.tableBounds.rowCount, id: \.self) { row in
         ForEach(0..<self.tableBounds.columnCount, id: \.self) { column in
-          let bounds = self.tableBounds.bounds(forRow: row, column: column)
-
-          Rectangle()
-            .fill(self.tableBackgroundStyle.background(row, column))
-            .offset(x: bounds.minX, y: bounds.minY)
-            .frame(width: bounds.width, height: bounds.height)
+          if self.tableBounds.hasSpan(forRow: row, column: column) {
+            let bounds = self.tableBounds.bounds(forRow: row, column: column)
+            Rectangle()
+              .fill(self.tableBackgroundStyle.background(row, column))
+              .offset(x: bounds.minX, y: bounds.minY)
+              .frame(width: bounds.width, height: bounds.height)
+          }
         }
       }
     }
