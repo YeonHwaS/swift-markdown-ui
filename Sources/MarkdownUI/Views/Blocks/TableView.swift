@@ -2,8 +2,6 @@ import SwiftUI
 
 struct TableView: View {
   @Environment(\.theme.table) private var table
-  @Environment(\.tableBorderStyle) private var tableBorderStyle
-  @Environment(\.tableBackgroundStyle) private var tableBackgroundStyle
   @Environment(\.tableBorderStyle.strokeStyle.lineWidth) private var borderWidth
 
   private let columnAlignments: [RawTableColumnAlignment]
@@ -30,7 +28,9 @@ struct TableView: View {
       Grid(tracks: tracks, spacing: [self.borderWidth, self.borderWidth]) {
         ForEach(0..<self.columnCount, id: \.self) { column in
           ForEach(0..<self.rowCount, id: \.self) { row in
-            if self.rows[row].cells[column].colspan > 0 && self.rows[row].cells[column].rowspan > 0 {
+            let colspan = self.rows[row].cells[column].colspan
+            let rowspan = self.rows[row].cells[column].rowspan
+            if colspan > 0 && rowspan > 0 {
               let alignment: GridAlignment? = switch self.columnAlignments[column] {
               case .none: nil
               case .left: .leading
@@ -40,8 +40,7 @@ struct TableView: View {
 
               TableCell(row: row, column: column, cell: self.rows[row].cells[column])
                 .gridItemAlignment(alignment)
-                .gridSpan(column: self.rows[row].cells[column].colspan,
-                          row: self.rows[row].cells[column].rowspan)
+                .gridSpan(column: colspan, row: rowspan)
             }
           }
         }
