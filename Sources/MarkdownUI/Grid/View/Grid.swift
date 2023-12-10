@@ -95,18 +95,18 @@ public struct Grid: View, LayoutArranging, LayoutPositioning {
             contentMode: self.contentMode,
             alignment: alignmentForItem(item)
           )
-          .backgroundPreferenceValue(
-            GridBackgroundPreferenceKey.self,
-            alignment: alignmentForItem(item)
-          ) { preference in
-            self.cellPreferenceView(item: item, preference: preference)
-          }
-          .overlayPreferenceValue(
-            GridOverlayPreferenceKey.self,
-            alignment: alignmentForItem(item)
-          ) { preference in
-            self.cellPreferenceView(item: item, preference: preference)
-          }
+//          .backgroundPreferenceValue(
+//            GridBackgroundPreferenceKey.self,
+//            alignment: alignmentForItem(item)
+//          ) { preference in
+//            self.cellPreferenceView(item: item, preference: preference)
+//          }
+//          .overlayPreferenceValue(
+//            GridOverlayPreferenceKey.self,
+//            alignment: alignmentForItem(item)
+//          ) { preference in
+//            self.cellPreferenceView(item: item, preference: preference)
+//          }
           .alignmentGuide(.leading) { _ in self.leadingGuide(item: item) }
           .alignmentGuide(.top) { _ in self.topGuide(item: item) }
       }

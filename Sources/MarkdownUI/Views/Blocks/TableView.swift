@@ -30,16 +30,19 @@ struct TableView: View {
       Grid(tracks: tracks, spacing: [self.borderWidth, self.borderWidth]) {
         ForEach(0..<self.columnCount, id: \.self) { column in
           ForEach(0..<self.rowCount, id: \.self) { row in
+            if self.rows[row].cells[column].colspan > 0 && self.rows[row].cells[column].rowspan > 0 {
+              let alignment: GridAlignment? = switch self.columnAlignments[column] {
+              case .none: nil
+              case .left: .leading
+              case .center: .center
+              case .right: .trailing
+              }
 
-            let alignment: GridAlignment? = switch self.columnAlignments[column] {
-            case .none: nil
-            case .left: .leading
-            case .center: .center
-            case .right: .trailing
+              TableCell(row: row, column: column, cell: self.rows[row].cells[column])
+                .gridItemAlignment(alignment)
+                .gridSpan(column: self.rows[row].cells[column].colspan,
+                          row: self.rows[row].cells[column].rowspan)
             }
-
-            TableCell(row: row, column: column, cell: self.rows[row].cells[column])
-              .gridItemAlignment(alignment)
           }
         }
       }
