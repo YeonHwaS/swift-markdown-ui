@@ -86,7 +86,9 @@
 				99DE2A1C294D9A2B0025E332 /* Products */,
 				99DE2A2D294D9AFB0025E332 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		99DE2A1C294D9A2B0025E332 /* Products */ = {
 			isa = PBXGroup;
