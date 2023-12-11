@@ -55,6 +55,19 @@ let package = Package(
         .product(name: "NetworkImage", package: "NetworkImage"),
       ]
     ),
+    .target(
+      name: "Down",
+      dependencies: [
+        "cmark-gfm",
+        "cmark-gfm-extensions"
+      ],
+      path: "Sources/Down",
+      exclude: ["Down.h"],
+      resources: [
+        .copy("Resources/DownView.bundle"),
+        .copy("Resources/DownView (macOS).bundle"),
+      ]
+    ),
     .testTarget(
       name: "MarkdownUITests",
       dependencies: [
