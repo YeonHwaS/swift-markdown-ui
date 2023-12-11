@@ -7,6 +7,12 @@ struct TablesView: View {
     create each column's header, while pipes separate each column. You must
     include a blank line before your table for it to render correctly.
 
+    | one | two | three |
+    |:---:|:---:|:-----:|
+    | big      || - small<br>- ㅇㅇㅇ |
+    |^         || small |
+    | 1   |  2  |  3    |
+
     ```
     | First Header  | Second Header |
     | ------------- | ------------- |
@@ -16,7 +22,7 @@ struct TablesView: View {
 
     | First Header  | Second Header |
     | ------------- | ------------- |
-    | Content Cell  | Content Cell  |
+    | assdf ![This is an image](https://picsum.photos/id/91/400/300) | Content Cell |
     | Content Cell  | Content Cell  |
 
     ## Formatting content within your table
