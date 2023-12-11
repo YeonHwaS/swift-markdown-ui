@@ -100,11 +100,13 @@ public struct Grid: View, LayoutArranging, LayoutPositioning {
       }
     }
     .onPreferenceChange(GridPreferenceKey.self) { preference in
-      self.calculateLayout(
-        preference: preference,
-        boundingSize: self.positions.totalSize ?? .zero
-      )
-      self.saveAlignmentsFrom(preference: preference)
+      DispatchQueue.main.async {
+        self.calculateLayout(
+          preference: preference,
+          boundingSize: self.positions.totalSize ?? .zero
+        )
+        self.saveAlignmentsFrom(preference: preference)
+      }
     }
     .frame(width: self.positions.totalSize?.width ?? .zero,
            height: self.positions.totalSize?.height ?? .zero,
