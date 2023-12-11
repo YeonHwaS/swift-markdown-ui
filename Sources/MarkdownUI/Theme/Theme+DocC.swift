@@ -126,7 +126,7 @@ extension Theme {
     .table { configuration in
       configuration.label
         .fixedSize(horizontal: false, vertical: true)
-        .markdownTableBorderStyle(.init(.horizontalBorders, color: .grid))
+        .markdownTableBorderStyle(.init(color: .grid))
         .markdownMargin(top: .em(1.6), bottom: .zero)
     }
     .tableCell { configuration in

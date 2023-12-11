@@ -18,51 +18,52 @@ extension TableBorderSelector {
   /// A table border selector that selects the inside borders of a table.
   public static var insideBorders: TableBorderSelector {
     TableBorderSelector { tableBounds, borderWidth in
-      Self.insideHorizontalBorders.rectangles(tableBounds, borderWidth)
-        + Self.insideVerticalBorders.rectangles(tableBounds, borderWidth)
+      var rects = [CGRect]()
+
+      for row in 0..<tableBounds.rowCount {
+        for column in 0..<tableBounds.columnCount {
+          let bounds = tableBounds.bounds(forRow: row, column: column).insetBy(dx: -borderWidth, dy: -borderWidth)
+
+          if hasHorizontalBorder(row: row, column: column, tableBounds: tableBounds) {
+            let horizontalBorder = CGRect(
+              origin: CGPoint(x: bounds.minX, y: bounds.maxY - borderWidth),
+              size: CGSize(width: bounds.width, height: borderWidth)
+            )
+            rects.append(horizontalBorder)
+          }
+
+          if hasVerticalBorder(row: row, column: column, tableBounds: tableBounds) {
+            let verticalBorder = CGRect(
+              origin: CGPoint(x: bounds.maxX - borderWidth, y: bounds.minY),
+              size: CGSize(width: borderWidth, height: bounds.height)
+            )
+            rects.append(verticalBorder)
+          }
+        }
+      }
+
+      return rects
     }
   }
 
-  /// A table border selector that selects the inside horizontal borders of a table.
-  public static var insideHorizontalBorders: TableBorderSelector {
-    TableBorderSelector { tableBounds, borderWidth in
-      (0..<tableBounds.rowCount - 1)
-        .map {
-          tableBounds.bounds(forRow: $0)
-            .insetBy(dx: -borderWidth, dy: -borderWidth)
-        }
-        .map {
-          CGRect(
-            origin: .init(x: $0.minX, y: $0.maxY - borderWidth),
-            size: .init(width: $0.width, height: borderWidth)
-          )
-        }
-    }
+  static func hasHorizontalBorder(row: Int, column: Int, tableBounds: TableBounds) -> Bool {
+    guard row < tableBounds.rowCount - 1 else { return false }
+    
+    let currentCellHasBorder = tableBounds.hasBorder(forRow: row, column: column)
+    let nextRowExists = row + 1 <= tableBounds.rowCount - 1
+    let nextCellHasBorder = nextRowExists && tableBounds.hasBorder(forRow: row + 1, column: column)
+
+    return currentCellHasBorder || nextCellHasBorder
   }
 
-  /// A table border selector that selects the inside vertical borders of a table.
-  public static var insideVerticalBorders: TableBorderSelector {
-    TableBorderSelector { tableBounds, borderWidth in
-      (0..<tableBounds.columnCount - 1)
-        .map {
-          tableBounds.bounds(forColumn: $0)
-            .insetBy(dx: -borderWidth, dy: -borderWidth)
-        }
-        .map {
-          CGRect(
-            origin: .init(x: $0.maxX - borderWidth, y: $0.minY),
-            size: .init(width: borderWidth, height: $0.height)
-          )
-        }
-    }
-  }
+  static func hasVerticalBorder(row: Int, column: Int, tableBounds: TableBounds) -> Bool {
+    guard column < tableBounds.columnCount - 1 else { return false }
 
-  /// A table border selector that selects the horizontal borders of a table.
-  public static var horizontalBorders: TableBorderSelector {
-    TableBorderSelector { tableBounds, borderWidth in
-      Self.outsideHorizontalBorders.rectangles(tableBounds, borderWidth)
-        + Self.insideHorizontalBorders.rectangles(tableBounds, borderWidth)
-    }
+    let currentCellHasBorder = tableBounds.hasBorder(forRow: row, column: column)
+    let nextColumnExists = column + 1 <= tableBounds.columnCount - 1
+    let nextCellHasBorder = nextColumnExists && tableBounds.hasBorder(forRow: row, column: column + 1)
+
+    return currentCellHasBorder || nextCellHasBorder
   }
 
   /// A table border selector that selects all the borders of a table.

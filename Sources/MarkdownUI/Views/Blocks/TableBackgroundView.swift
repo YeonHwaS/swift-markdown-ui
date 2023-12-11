@@ -13,7 +13,7 @@ struct TableBackgroundView: View {
     ZStack(alignment: .topLeading) {
       ForEach(0..<self.tableBounds.rowCount, id: \.self) { row in
         ForEach(0..<self.tableBounds.columnCount, id: \.self) { column in
-          if self.tableBounds.hasSpan(forRow: row, column: column) {
+          if self.tableBounds.hasBackground(forRow: row, column: column) {
             let bounds = self.tableBounds.bounds(forRow: row, column: column)
             Rectangle()
               .fill(self.tableBackgroundStyle.background(row, column))

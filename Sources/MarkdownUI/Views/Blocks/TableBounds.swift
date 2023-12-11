@@ -72,10 +72,16 @@ struct TableBounds {
       .reduce(.null, CGRectUnion)
   }
 
-  func hasSpan(forRow row: Int, column: Int) -> Bool {
+  func hasBackground(forRow row: Int, column: Int) -> Bool {
     let colspan = self.tableRows[row].cells[column].colspan
     let rowspan = self.tableRows[row].cells[column].rowspan
     return colspan > 0 && rowspan > 0
+  }
+
+  func hasBorder(forRow row: Int, column: Int) -> Bool {
+    let colspan = self.tableRows[row].cells[column].colspan
+    let rowspan = self.tableRows[row].cells[column].rowspan
+    return colspan == 1 && rowspan == 1
   }
 }
 
