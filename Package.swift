@@ -32,7 +32,7 @@ let package = Package(
         "case_fold_switch.inc",
         "entities.inc",
       ],
-      publicHeadersPath: "Sources/cmark-gfm/src/include",
+      publicHeadersPath: "./include",
       cSettings: []
     ),
     .target(name: "cmark-gfm-extensions",
@@ -44,7 +44,7 @@ let package = Package(
         "CMakeLists.txt",
         "ext_scanners.re",
       ],
-      publicHeadersPath: "Sources/cmark-gfm/extensions/include",
+      publicHeadersPath: "./include",
       cSettings: []
     ),
     .target(
