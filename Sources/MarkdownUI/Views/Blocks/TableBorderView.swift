@@ -16,7 +16,7 @@ struct TableBorderView: View {
       )
       ForEach(0..<rectangles.count, id: \.self) {
         let rectangle = rectangles[$0]
-        Rectangle()
+        RoundedRectangle(cornerRadius: 6)
           .strokeBorder(self.tableBorderStyle.color, style: self.tableBorderStyle.strokeStyle)
           .offset(x: rectangle.minX, y: rectangle.minY)
           .frame(width: rectangle.width, height: rectangle.height)
