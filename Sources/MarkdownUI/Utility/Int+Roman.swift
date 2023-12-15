@@ -1,7 +1,7 @@
 import Foundation
 
 extension Int {
-  var roman: String {
+  public var roman: String {
     guard self > 0, self < 4000 else {
       return "\(self)"
     }
