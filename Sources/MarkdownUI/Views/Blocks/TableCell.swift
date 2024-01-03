@@ -22,6 +22,7 @@ struct TableCell: View {
         content: .init(block: .paragraph(content: cell.content))
       )
     )
+    .fixedSize()
     .tableCellBounds(forRow: self.row, column: self.column)
   }
 
