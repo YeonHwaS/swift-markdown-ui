@@ -32,7 +32,7 @@ struct TableView: View {
             let rowspan = self.rows[row].cells[column].rowspan
             if colspan > 0 && rowspan > 0 {
               let alignment: GridAlignment? = switch self.columnAlignments[column] {
-              case .none: nil
+              case .none: .leading
               case .left: .leading
               case .center: .center
               case .right: .trailing
